@@ -5,8 +5,251 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock-Paper-Scissors</title>
+    <style>
+        pre {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            border-left: 3px solid #f36d33;
+            color: #666;
+            page-break-inside: avoid;
+            font-family: monospace;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 1.6em;
+            max-width: 100%;
+            overflow: auto;
+            padding: 1em 1.5em;
+            display: block;
+            word-wrap: break-word;
+        }
+    </style>
 </head>
 <body>
-    
+    <h1>Proceso</h1>
+
+    <h2>Ve la consola</h2>
+
+    <h3>Instrucciones</h3>
+    <div>
+        <p>Hacer que la maquina escoja de manera aleatoria entre piedra, papel o tijera y guarda en variable</p>
+        <p>Preguntar al humano que seleccione entre piedra papel o tijeras, guardar la variable</p>
+        <p>
+            recoger la seleccion del humano y de la maquina en una funcion que compare
+            todas las posibles respuestas mediante comparación
+        </p>
+        <p>piedra vence a tijeras, tijeras vence a papel y papel vence a piedra</p>
+        <p>obtener resultado mediante nueva asignacion de variables, resultado y mensaje ganador</p>
+        <p>imprimir ganador en consolo y decir porque </p>
+        <p>decir quien fue el ganador y porque ganó</p>
+    </div>
+
+    <h3>Pseudo Código</h3>
+    <pre>
+        let selectionList = array [Piedra,Papel,Tijeras]
+        function computerPlay () {
+            let computerPlay = random(0,1,2)
+        };
+        let humanPlay = null;
+        let respuesta = null;
+        let piedraGana = 'Piedra le gana a tijeras'
+        let papelGana = 'Papel le gana a piedra'
+        let tijeras = 'tijeras le gana a papel' 
+
+        prompt "que escoges?" case insensitive
+        function humanPlay(respuesta) {
+            if (!respuesta) {
+                "no seleccionaste una respuesta"
+                "juega de nuevo"
+                prompt "que escoges?"
+            } 
+            else if (respuesta="Piedra") {
+                humanPlay = 0
+            }
+            else if (respuesta="Papel") {
+                humanPlay = 1
+            }
+            else (respuesta="Tijeras") {
+                humanPlay = 2
+            }
+            return humanPlay
+        }
+        function comparar() {
+            if computerPlay == humanPlay {
+                "nadie ganó"
+                "haz refresh para jugar de nuevo"
+            }
+            else if (computerPlay == 2 && humanPlay == 1) {
+                computer wins
+                Tijeras le gana a papel
+            }
+            else if (computerPlay == 1 && humanPlay == 0) {
+                computer wins
+                papel le gana a piedra
+            }
+            else if (computerPlay == 0 && humanPlay == 2) {
+                computer wins
+                piedra le gana a tijeras
+            }
+            else if (humanPlay== 2 && computerPlay == 1) {
+                human wins
+                Tijeras le gana a papel
+            }
+            else if (humanPlay== 1 && computerPlay == 0) {
+                human wins
+                papel le gana a piedra
+            }
+            else if (humanPlay== 0 && computerPlay == 2) {
+                human wins
+                Tijeras le gana a papel
+            }
+        }
+        function comparar() {
+            if computerPlay {
+                console gano la ocmpu por que piedra gana a tijeras
+            }
+        }
+        
+        
+    </pre>
+
+    <h3>Código Final</h3>
+    <pre>
+        console.log("Que empiece el juego");
+        let piedra = 1;
+        let papel = 2;
+        let tijeras = 3;
+        let loserMessage = "PERDISTE";
+        let winnerMessage = "GANASTE";
+        let piedraText = "Piedra";
+        let papelText = "Papel"
+        let tijerasText = "Tijeras"
+        let computerPlay = Math.floor(Math.random() * (4 - 1) + 1);
+        let humanPlay = prompt (`Haz tu jugada, escribe ${piedraText}, ${papelText} o ${tijerasText}`, 'Escribe aquí').toLowerCase();
+        
+        switch(humanPlay) {
+            case 'piedra':
+                humanPlay = 1;
+                break;
+            case 'papel':
+                humanPlay = 2;
+                break;
+            case 'tijeras':
+                humanPlay = 3;
+                break;
+            default:
+                humanPlay = null
+                alert ("Fijate que hayas escrito correctamente, vuelve a intentarlo")
+        }
+
+        let humanPlayText = humanPlay == 1 ? piedraText : humanPlay == 2 ? papelText : humanPlay == 3 ? tijerasText : '';
+        let computerPlayText = computerPlay == 1 ? piedraText : computerPlay == 2 ? papelText : computerPlay == 3 ? tijerasText : '';
+       
+        console.log(`computer: ${computerPlay}. player: ${humanPlay}.`);
+        
+        if (computerPlay == humanPlay) {
+            console.log("Nadie gana, tu tienes: " + humanPlayText + ". Y la compu tiene: " + computerPlayText)
+        } else {
+            console.log("La computadora tiene " + computerPlayText);
+        }
+        
+        if (computerPlay==3) {
+            if (humanPlay == 2) {
+                console.log(loserMessage + ", tienes: " + humanPlayText);
+            }
+            if (humanPlay == 1) {
+                console.log(winnerMessage + ", tienes: " + humanPlayText);
+            }
+        }
+        
+        if (computerPlay==2) {
+            if (humanPlay == 1) {
+                console.log(loserMessage + ", tienes: " + humanPlayText);
+            }
+            if (humanPlay == 3) {
+                console.log(winnerMessage + ", tienes: " + humanPlayText);
+            }
+        }
+        
+        if (computerPlay==1) {
+            if (humanPlay == 3) {
+                console.log(loserMessage + ", tienes: " + humanPlayText);
+            }
+            if (humanPlay == 2) {
+                console.log(winnerMessage + ", tienes: " + humanPlayText);
+            }
+        }
+    </pre>
+
+    <script>
+        console.log("Que empiece el juego");
+        let piedra = 1;
+        let papel = 2;
+        let tijeras = 3;
+        let loserMessage = "PERDISTE";
+        let winnerMessage = "GANASTE";
+        let piedraText = "Piedra";
+        let papelText = "Papel"
+        let tijerasText = "Tijeras"
+        let computerPlay = Math.floor(Math.random() * (4 - 1) + 1);
+        let humanPlay = prompt (`Haz tu jugada, escribe ${piedraText}, ${papelText} o ${tijerasText}`, 'Escribe aquí').toLowerCase();
+        
+        switch(humanPlay) {
+            case 'piedra':
+                humanPlay = 1;
+                break;
+            case 'papel':
+                humanPlay = 2;
+                break;
+            case 'tijeras':
+                humanPlay = 3;
+                break;
+            default:
+                humanPlay = null
+                alert ("Fijate que hayas escrito correctamente, vuelve a intentarlo")
+        }
+
+        let humanPlayText = humanPlay == 1 ? piedraText : humanPlay == 2 ? papelText : humanPlay == 3 ? tijerasText : '';
+        let computerPlayText = computerPlay == 1 ? piedraText : computerPlay == 2 ? papelText : computerPlay == 3 ? tijerasText : '';
+        
+        console.log(`computer: ${computerPlay}. player: ${humanPlay}.`);
+        
+        if (computerPlay == humanPlay) {
+            console.log("Nadie gana, tu tienes: " + humanPlayText + ". Y la compu tiene: " + computerPlayText)
+        } else {
+            console.log("La computadora tiene " + computerPlayText);
+        }
+
+        function resultMessage(result, play) {
+            return `${result}, tienes ${play}`;
+        }
+        
+        if (computerPlay==3) {
+            if (humanPlay == 2) {
+                console.log(resultMessage(loserMessage, humanPlayText));
+            }
+            if (humanPlay == 1) {
+                console.log(resultMessage(winnerMessage, humanPlayText));
+            }
+        }
+        
+        if (computerPlay==2) {
+            if (humanPlay == 1) {
+                console.log(resultMessage(loserMessage, humanPlayText));
+            }
+            if (humanPlay == 3) {
+                console.log(resultMessage(winnerMessage, humanPlayText));
+            }
+        }
+        
+        if (computerPlay==1) {
+            if (humanPlay == 3) {
+                console.log(resultMessage(loserMessage, humanPlayText));
+            }
+            if (humanPlay == 2) {
+                console.log(resultMessage(winnerMessage, humanPlayText));
+            }
+        }
+        
+    </script>
 </body>
 </html>
