@@ -188,68 +188,107 @@
         let loserMessage = "PERDISTE";
         let winnerMessage = "GANASTE";
         let piedraText = "Piedra";
-        let papelText = "Papel"
-        let tijerasText = "Tijeras"
-        let computerPlay = Math.floor(Math.random() * (4 - 1) + 1);
-        let humanPlay = prompt (`Haz tu jugada, escribe ${piedraText}, ${papelText} o ${tijerasText}`, 'Escribe aquí').toLowerCase();
+        let papelText = "Papel";
+        let tijerasText = "Tijeras";
+        let computerScore = 0;
+        let humanScore = 0;
+        let computerPlay;
+        let humanPlay;
+
+        function resultMessage(result, play, score) {
+            return `${result}, escogiste ${play} y te llevas ${score}`;
+        }
         
-        switch(humanPlay) {
-            case 'piedra':
-                humanPlay = 1;
-                break;
-            case 'papel':
-                humanPlay = 2;
-                break;
-            case 'tijeras':
-                humanPlay = 3;
-                break;
-            default:
-                humanPlay = null
-                alert ("Fijate que hayas escrito correctamente, vuelve a intentarlo")
+        function roundPlay() {
+            let computerPlay = Math.floor(Math.random() * (4 - 1) + 1);
+            let humanPlay = prompt (
+                    `Haz tu jugada, escribe ${piedraText}, ${papelText} o ${tijerasText}`, 'Escribe aquí'
+            ).toLowerCase();
+            
+            
+            switch(humanPlay) {
+                case 'piedra':
+                    humanPlay = 1;
+                    break;
+                case 'papel':
+                    humanPlay = 2;
+                    break;
+                case 'tijeras':
+                    humanPlay = 3;
+                    break;
+                default:
+                    humanPlay = null
+                    alert ("Fijate que hayas escrito correctamente, vuelve a intentarlo")
+            }
+
+            let humanPlayText = humanPlay == 1 ? piedraText : humanPlay == 2 ? papelText : humanPlay == 3 ? tijerasText : 'No seleccionaste nada';
+            let computerPlayText = computerPlay == 1 ? piedraText : computerPlay == 2 ? papelText : computerPlay == 3 ? tijerasText : 'Error: La computadora no seleccionó nada';
+            
+            let roundWinner;
+
+            if (computerPlay == humanPlay) {
+                console.log("Nadie gana, tu tienes: " + humanPlayText + ". Y la compu tiene: " + computerPlayText);
+                roundWinner = 'empate';
+            }
+
+            console.log("La computadora escogió: " + computerPlayText)
+
+            if (computerPlay==3) {
+                if (humanPlay == 2) {
+                    roundWinner = 'computadora';
+                    computerScore++;
+                    console.log(resultMessage(loserMessage, humanPlayText, 0));
+                }
+                if (humanPlay == 1) {
+                    roundWinner = 'humano'
+                    humanScore++;
+                    console.log(resultMessage(winnerMessage, humanPlayText, 1));
+                }
+            }
+            
+            if (computerPlay==2) {
+                if (humanPlay == 1) {
+                    roundWinner = 'computadora';
+                    computerScore++;
+                    console.log(resultMessage(loserMessage, humanPlayText, 0));
+                }
+                if (humanPlay == 3) {
+                    roundWinner = 'humano';
+                    humanScore++;
+                    console.log(resultMessage(winnerMessage, humanPlayText, 1));
+                }
+            }
+            
+            if (computerPlay==1) {
+                if (humanPlay == 3) {
+                    roundWinner = 'computadora';
+                    computerScore++;
+                    console.log(resultMessage(loserMessage, humanPlayText, 0));
+                }
+                if (humanPlay == 2) {
+                    roundWinner = 'humano';
+                    humanScore++;
+                    console.log(resultMessage(winnerMessage, humanPlayText, 1));
+                }
+            }
+            console.log("El ganador de esta ronda es: " + roundWinner + " Marcador. Computadadora: " + computerScore + ", Humano: " + humanScore);
         }
 
-        let humanPlayText = humanPlay == 1 ? piedraText : humanPlay == 2 ? papelText : humanPlay == 3 ? tijerasText : '';
-        let computerPlayText = computerPlay == 1 ? piedraText : computerPlay == 2 ? papelText : computerPlay == 3 ? tijerasText : '';
-        
-        console.log(`computer: ${computerPlay}. player: ${humanPlay}.`);
-        
-        if (computerPlay == humanPlay) {
-            console.log("Nadie gana, tu tienes: " + humanPlayText + ". Y la compu tiene: " + computerPlayText)
+        for (let i = 1; i < 6; i++) {
+            console.log(" Vuelta " + i);
+            roundPlay();
+        }
+
+        console.log("El juego se terminó");
+
+        if (humanScore > computerScore) {
+            console.log("GANASTE!!")
+        } else if (humanScore < computerScore) {
+            console.log("PERDISTE!!")
         } else {
-            console.log("La computadora tiene " + computerPlayText);
+            console.log("EMPATE!!!")
         }
-
-        function resultMessage(result, play) {
-            return `${result}, tienes ${play}`;
-        }
-        
-        if (computerPlay==3) {
-            if (humanPlay == 2) {
-                console.log(resultMessage(loserMessage, humanPlayText));
-            }
-            if (humanPlay == 1) {
-                console.log(resultMessage(winnerMessage, humanPlayText));
-            }
-        }
-        
-        if (computerPlay==2) {
-            if (humanPlay == 1) {
-                console.log(resultMessage(loserMessage, humanPlayText));
-            }
-            if (humanPlay == 3) {
-                console.log(resultMessage(winnerMessage, humanPlayText));
-            }
-        }
-        
-        if (computerPlay==1) {
-            if (humanPlay == 3) {
-                console.log(resultMessage(loserMessage, humanPlayText));
-            }
-            if (humanPlay == 2) {
-                console.log(resultMessage(winnerMessage, humanPlayText));
-            }
-        }
-        
+       
     </script>
 </body>
 </html>
