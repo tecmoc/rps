@@ -9,32 +9,77 @@
 <body>
     
     <h1>Piedra, papel y tijeras</h1>
+    <h2>Selecciona tu jugada (la compu no puede verte)</h2>
+    <div>Here in mexico we use to play only 3 rounds, we call "two of three", of course this means that who wins two rounds win the game</div>
+    <button id="piedra">Piedra</button>
+    <button id="papel">Papel</button>
+    <button id="tijeras">Tijeras</button>
+    <div id="resultadoFinal"></div>
+    <h4>Jugada <span id="plays"></span> </h4>
+    <h5 id="contendorMarcador">El marcador es:</h5>
+    <div class="contenedorMarcador">
+        Tú: <span id="marcadorHumano"></span>
+    </div>
+    <div class="contenedorMarcador">
+        Computadora: <span id="marcadorComputadora"></span>
+    </div>
+    <div id="contenedorMensajes"></div>
+    
+
 
     <script>
-        console.log("Que empiece el juego");
+        // console.log("Que empiece el script");
         let piedra = 1;
         let papel = 2;
         let tijeras = 3;
         let loserMessage = "PERDISTE";
         let winnerMessage = "GANASTE";
+        let evenMessage = "EMPATE";
         let piedraText = "Piedra";
         let papelText = "Papel";
         let tijerasText = "Tijeras";
         let computerScore = 0;
         let humanScore = 0;
+        let plays = 0;
         let computerPlay;
         let humanPlay;
 
-        function resultMessage(result, play, score) {
-            return `${result}, escogiste ${play} y te llevas ${score}`;
+        const contenedorMensajes = document.querySelector("#contenedorMensajes");
+        const botones = document.querySelectorAll('button');
+        const marcadorHumano = document.querySelector("#marcadorHumano");
+        const marcadorComputadora = document.querySelector("#marcadorComputadora");
+        const resultadoFinal = document.querySelector("#resultadoFinal");
+        const playText = document.querySelector("#plays");
+        const newGame = document.createElement("div");
+
+        marcadorComputadora.textContent = computerScore;
+        marcadorHumano.textContent = humanScore;
+        playText.textContent = plays;
+
+
+        botones.forEach(
+            (boton) => {
+                boton.addEventListener('click', () => {roundPlay(boton.id)})
+        });
+
+        function resultMessage(punto) {
+            return `Te llevas ${punto} punto`;
         }
         
-        function roundPlay() {
+        function roundPlay(seleccion) {
+            plays++;
+            const empiezaJuego = document.createElement("h3");
+            contenedorMensajes.appendChild(empiezaJuego);
+            empiezaJuego.textContent = "Va: piedra, papel o tijeras.";
+            empiezaJuego.setAttribute("style", "font-size: 24px; margin-top: 20px; border-top: 1px solid;");
+
             let computerPlay = Math.floor(Math.random() * (4 - 1) + 1);
-            let humanPlay = prompt (
-                    `Haz tu jugada, escribe ${piedraText}, ${papelText} o ${tijerasText}`, 'Escribe aquí'
-            ).toLowerCase();
-            
+            let humanPlay = seleccion;
+
+            const seleccionJugador = document.createElement("p");
+            contenedorMensajes.appendChild(seleccionJugador);
+            seleccionJugador.setAttribute("style", "font-size: 18px; margin-top: 12px;");
+            seleccionJugador.textContent = 'Escogiste: ' + humanPlay;
             
             switch(humanPlay) {
                 case 'piedra':
@@ -56,23 +101,37 @@
             
             let roundWinner;
 
-            if (computerPlay == humanPlay) {
-                console.log("Nadie gana, tu tienes: " + humanPlayText + ". Y la compu tiene: " + computerPlayText);
-                roundWinner = 'empate';
-            }
+            const seleccionPrograma = document.createElement("p");
+            contenedorMensajes.appendChild(seleccionPrograma);
+            seleccionPrograma.setAttribute("style", "font-size: 18px; margin-top: 12px;");
+            seleccionPrograma.textContent = 'La computadora escogió: ' + computerPlayText;
 
-            console.log("La computadora escogió: " + computerPlayText)
+            const mensajeResultado = document.createElement("p");
+            contenedorMensajes.appendChild(mensajeResultado);
+            mensajeResultado.setAttribute("style", "font-size: 24px; margin-top: 12px;");
+
+            const mensajePunto = document.createElement("p");
+            contenedorMensajes.appendChild(mensajePunto);
+            mensajePunto.setAttribute("style", "font-size: 18px; margin-top: 12px;");
+            
+            if (computerPlay == humanPlay) {
+                mensajeResultado.textContent = evenMessage;
+                mensajePunto.textContent = "Nada para nadie";
+                roundWinner = "nadie";
+            }
 
             if (computerPlay==3) {
                 if (humanPlay == 2) {
                     roundWinner = 'computadora';
                     computerScore++;
-                    console.log(resultMessage(loserMessage, humanPlayText, 0));
+                    mensajeResultado.textContent = loserMessage;
+                    mensajePunto.textContent = resultMessage(0);
                 }
                 if (humanPlay == 1) {
                     roundWinner = 'humano'
                     humanScore++;
-                    console.log(resultMessage(winnerMessage, humanPlayText, 1));
+                    mensajeResultado.textContent = winnerMessage;
+                    mensajePunto.textContent = resultMessage(1);
                 }
             }
             
@@ -80,12 +139,14 @@
                 if (humanPlay == 1) {
                     roundWinner = 'computadora';
                     computerScore++;
-                    console.log(resultMessage(loserMessage, humanPlayText, 0));
+                    mensajeResultado.textContent = loserMessage;
+                    mensajePunto.textContent = resultMessage(0);
                 }
                 if (humanPlay == 3) {
                     roundWinner = 'humano';
                     humanScore++;
-                    console.log(resultMessage(winnerMessage, humanPlayText, 1));
+                    mensajeResultado.textContent = winnerMessage;
+                    mensajePunto.textContent = resultMessage(1);
                 }
             }
             
@@ -93,32 +154,59 @@
                 if (humanPlay == 3) {
                     roundWinner = 'computadora';
                     computerScore++;
-                    console.log(resultMessage(loserMessage, humanPlayText, 0));
+                    mensajeResultado.textContent = loserMessage;
+                    mensajePunto.textContent = resultMessage(0);
                 }
                 if (humanPlay == 2) {
                     roundWinner = 'humano';
                     humanScore++;
-                    console.log(resultMessage(winnerMessage, humanPlayText, 1));
+                    mensajeResultado.textContent = winnerMessage;
+                    mensajePunto.textContent = resultMessage(1);
                 }
             }
-            console.log("El ganador de esta ronda es: " + roundWinner + " Marcador. Computadora: " + computerScore + ", Humano: " + humanScore);
-        }
 
-        for (let i = 1; i < 6; i++) {
-            console.log(" Vuelta " + i);
-            roundPlay();
+            marcadorComputadora.textContent = computerScore;
+            marcadorHumano.textContent = humanScore;
+            playText.textContent = plays;
+            if (plays===2 && humanScore===2 || computerScore===2) {
+                resultadoFinal.setAttribute('style', 'font-size: 32px; cursor: pointer; color: white; background: red');
+                if (humanScore > computerScore) {
+                    resultadoFinal.textContent = winnerMessage;
+                } else if (humanScore < computerScore) {
+                    resultadoFinal.textContent = loserMessage;
+                } else {
+                    resultadoFinal.textContent = evenMessage;
+                }
+                document.querySelector("#piedra").disabled = true;
+                document.querySelector("#papel").disabled = true;
+                document.querySelector("#tijeras").disabled = true;
+                resultadoFinal.appendChild(newGame).textContent = "Empieza un nuevo juego";
+                newGame.addEventListener('click', _ => {
+                    // el _ es para indicar la ausencia de parametros
+                    location.reload();
+                });
+            }
+            if (plays===3) {
+                resultadoFinal.setAttribute('style', 'font-size: 32px; cursor: pointer; color: white; background: red');
+                if (humanScore > computerScore) {
+                    resultadoFinal.textContent = winnerMessage;
+                } else if (humanScore < computerScore) {
+                    resultadoFinal.textContent = loserMessage;
+                } else {
+                    resultadoFinal.textContent = evenMessage;
+                }
+                document.querySelector("#piedra").disabled = true;
+                document.querySelector("#papel").disabled = true;
+                document.querySelector("#tijeras").disabled = true;
+                resultadoFinal.appendChild(newGame).textContent = "Empieza un nuevo juego";
+                newGame.addEventListener('click', _ => {
+                    // el _ es para indicar la ausencia de parametros
+                    location.reload();
+                });
+            }
+            
         }
-
-        console.log("El juego se terminó");
-
-        if (humanScore > computerScore) {
-            console.log("GANASTE!!")
-        } else if (humanScore < computerScore) {
-            console.log("PERDISTE!!")
-        } else {
-            console.log("EMPATE!!!")
-        }
-       
+    //    console.log("final de script");
     </script>
 </body>
 </html>
